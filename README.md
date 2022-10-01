@@ -16,17 +16,20 @@ See [Notes on Ethernet Config](docs/Notes-On-Ethernet-Config.md) for configurati
 
 Valid motor commands are found in `STM23Q/commands.json`. New commands may be added by editing this file.
 
-A command needs to follow the following json format
+A command needs to follow the format of the example below
 ```json
 "AccelRate":{                           // Name of the property or command
     "command":"AC",                     // Two-letter command defined in the command manual
     "description":"Acceleration Rate",  // Unabbreviated name of the command
+    "type:"float",                      // Expected data type
     "read":true,                        // Read access
     "write":true,                       // Write access
-    "executable":false,                 // Whether this command causes the motor to move
     "range":{                           // [Optional] limits on write access commands
         "min":0.167,
         "max":5461.167
     },
     "help":"[rev/sec/sec]"              // Additional documentation on the command (e.g. units)
 ```
+
+Note: if "type" is set to "bool", setting the attribute to `True` sends the command to 
+the motor.
