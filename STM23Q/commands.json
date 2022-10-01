@@ -1,0 +1,20 @@
+{
+    "AccelRate":{
+        "command":"AC",
+        "description":"Acceleration Rate",
+        "read":true,
+        "write":true,
+        "range":{
+            "min":0.167,
+            "max":5461.167
+        },
+        "help":"[rev/sec/sec] resolution is 0.167 rps/s"
+    },
+    "ReqStat":{
+        "command":"RS",
+        "description":"Request Status",
+        "read":true,
+        "write":false,
+        "help":"See Host Command Ref pg 230 for response meanings"
+    }
+}
