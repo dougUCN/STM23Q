@@ -21,7 +21,7 @@ A command needs to follow the format of the example below
 "AccelRate":{                           // Name of the property or command
     "command":"AC",                     // Two-letter command defined in the command manual
     "description":"Acceleration Rate",  // Unabbreviated name of the command
-    "type:"float",                      // Expected data type
+    "type":"float",                      // Expected data type
     "read":true,                        // Read access
     "write":true,                       // Write access
     "range":{                           // [Optional] limits on write access commands
