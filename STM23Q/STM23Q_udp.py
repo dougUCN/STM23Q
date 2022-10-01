@@ -91,10 +91,6 @@ class STM23Q_udp(object):
             msg = "'{0}' object has no attribute '{1}'"
             raise AttributeError(msg.format(type(self).__name__, name))
     
-    def __setattr__(self, name):
-        """Sets an attribute as defined by commands.json"""
-        pass
-
     # ---- Exceptions ---- #
     
     class _TimeoutExcept(Exception):

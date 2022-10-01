@@ -7,7 +7,7 @@ Basic python library for communications with the STM23 Motor + Drive
 ```
 import STM23Q
 motor = STM23Q.STM23Q_udp(socket_ip = ...)
-#TODO example commands
+
 ```
 
 See [Notes on Ethernet Config](docs/Notes-On-Ethernet-Config.md) for configuration of `socket_ip`
