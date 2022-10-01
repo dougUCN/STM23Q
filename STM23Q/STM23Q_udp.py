@@ -22,7 +22,7 @@ class STM23Q_udp(object):
         initializes socket bind with `socket_ip` and `socket_port` arguments
         """
         with open(os.path.dirname(__file__) + "/commands.json") as command_file:
-            self._commands = json.load(command_file)
+            self.commands = json.load(command_file)
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind((socket_ip, socket_port))
@@ -81,7 +81,22 @@ class STM23Q_udp(object):
         if self._sock:
             self._sock.close()
 
+    # ---- Automatic attribute management ---- #
+
+    def __getattr__(self, name):
+        """Retrieves an attribute as defined by commands.json"""
+        try:
+            return self.commands[name]
+        except KeyError:
+            msg = "'{0}' object has no attribute '{1}'"
+            raise AttributeError(msg.format(type(self).__name__, name))
+    
+    def __setattr__(self, name):
+        """Sets an attribute as defined by commands.json"""
+        pass
+
     # ---- Exceptions ---- #
+    
     class _TimeoutExcept(Exception):
         """Access timeout during request"""
 
