@@ -15,7 +15,7 @@ See [Notes on Ethernet Config](docs/Notes-On-Ethernet-Config.md) for configurati
 
 Note: We assume that the 16 position rotary switch on the motor is set to 0 (ip address "10.10.10.10"). If your switch is in another setting, edit the `MOTOR_IP` variable in `STM23Q_udp.py`
 
-`socket_port` is apparently not very important as long as it is unused. According to pg 22 of the [Hardware Manual](docs/'STM23 Hardware Manual_920-0021F-opt-.pdf') the STM23 drive responds to whatever ip/port sends the first command
+`socket_port` is apparently not very important as long as it is unused. According to pg 22 of the [Hardware Manual](docs/STM23-Hardware_Manual_920-0021F.pdf) the STM23 drive responds to whatever ip/port sends the first command
 
 ## Motor commands
 
