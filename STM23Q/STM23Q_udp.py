@@ -18,11 +18,9 @@ class STM23Q_udp(object):
     term_char = b"\r"
 
     def __init__(self, socket_ip="10.10.10.3", socket_port=7774):
-        """Loads valid commands from `commands.json` and
-        initializes socket bind with `socket_ip` and `socket_port` arguments
         """
-        with open(os.path.dirname(__file__) + "/commands.json") as command_file:
-            self.commands = json.load(command_file)
+        Initializes socket bind with `socket_ip` and `socket_port` arguments
+        """
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind((socket_ip, socket_port))
@@ -81,16 +79,6 @@ class STM23Q_udp(object):
         if self._sock:
             self._sock.close()
 
-    # ---- Automatic attribute management ---- #
-
-    def __getattr__(self, name):
-        """Retrieves an attribute as defined by commands.json"""
-        try:
-            return self.commands[name]
-        except KeyError:
-            msg = "'{0}' object has no attribute '{1}'"
-            raise AttributeError(msg.format(type(self).__name__, name))
-    
     # ---- Exceptions ---- #
     
     class _TimeoutExcept(Exception):
@@ -100,4 +88,4 @@ class STM23Q_udp(object):
         """Issue with socket binding on initialization"""
 
     class _UnexpectedResponse(Exception):
-        """Received response in an unexpected format"""
+        """Incorrect response format header or term char"""
