@@ -4,17 +4,22 @@
 
 Requires admin user on Ubuntu
 
-Open "Wired Settings" on your desired ethernet port in the Ubuntu Gui
+Open "Wired Settings" on the desired ethernet port in the Ubuntu Gui
 
 IPV4 --> set IPV4 Method to Manual
 
-Address = 10.10.10.3, Net Mask = 255.255.255.0
+Address = 192.168.1.30, Net Mask = 255.255.255.0
+
+Note that if the net mask is 255.255.255.0 then the pc can only talk to
+a motor whose IP address matches the first three octects.
 
 Save and apply. Changes should show up when using `ip address show`
 
 Config file is stored in `/etc/NetworkManager/system-connections/Wired Connection 1`
 
-Apparently there is a cli tool called `nmcli` that allows you to manage this as well
+There is a cli tool called `nmcli` that allows you to manage this as well.
+
+[Useful reference link](https://devconnected.com/how-to-add-route-on-linux/)
 
 ## Temporary ip configuration
 
@@ -26,6 +31,20 @@ For temporary ip configuration, use
 sudo ip addr add <IP>/24 dev <ethernet interface>
 ```
 
-In our case we use `<IP> =  10.10.10.3`. Determine `<ethernet interface>` using the `ip address show` command
+In our case we use `<IP> =  192.168.1.30`. Determine `<ethernet interface>` using the `ip address show` command
 
+## Using a Netgear GS308 Switcher for multiple motors
 
+The Netgear GS308 is an unmanaged switch that blindly forwards requests
+
+Example usage:
+
+```
+import STM23Q
+motor1 = STM23Q.STM23Q_udp(socket_port=7774, motor_ip="192.168.1.10") # Rotary switch set to 1
+motor2 = STM23Q.STM23Q_udp(socket_port=7773, motor_ip="192.168.1.20") # Rotary switch set to 2
+motor1.send(b"DI100000") # Set motor 1 dist to 100000
+motor2.send(b"DI50000") # Set motor 2 dist to 50000
+motor1.send(b"FL") # Tell motor 1 to move the set dist
+motor2.send(b"FL") # Tell motor 2 to move the set dist
+```

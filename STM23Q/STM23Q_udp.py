@@ -4,26 +4,30 @@ import socket, select, json, os
 class STM23Q_udp(object):
     """UDP Communications with the STM23Q Motor"""
 
-    # See page 21-22 of STM23 Hardware Manual
-    # The motor IP settings depend on the screw on the motor
-    MOTOR_IP = "10.10.10.10"
-    MOTOR_PORT = 7775
-
     # UDP settings
     buffer_size = 1024
     default_timeout = 0.1  # seconds
-
-    # UDP protocol
     eSCL_header = b"\000\007"
     term_char = b"\r"
+    motor_port=7775
 
-    def __init__(self, socket_ip="10.10.10.3", socket_port=7774):
+    def __init__(
+        self,
+        socket_ip="192.168.1.30",
+        socket_port=7774,
+        motor_ip="192.168.1.10",
+    ):
         """
-        Initializes socket bind with `socket_ip` and `socket_port` arguments
+        See page 21-22 of STM23 Hardware Manual for `motor_ip` and `motor_port` info
+
+        See docs/Notes-On-Ethernet-Config.md for `socket_ip` and `socket_port` info
         """
+        self.motor_ip = motor_ip
+        self.socket_ip = socket_ip
+        self.socket_port = socket_port
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.bind((socket_ip, socket_port))
+            sock.bind((self.socket_ip, self.socket_port))
             sock.setblocking(0)  # guarantee that recv will not block internally
             self._sock = sock
         except Exception as error:
@@ -43,14 +47,14 @@ class STM23Q_udp(object):
 
         sock.sendto(
             self.eSCL_header + msg + self.term_char,
-            (self.MOTOR_IP, self.MOTOR_PORT),
+            (self.motor_ip, self.motor_port),
         )
 
     def recv(self):
         """Receive single response packet from motor. Returns bytestring"""
         sock = self._sock
         if select.select([sock], [], [], self.default_timeout)[0]:
-            resp, address = sock.recvfrom(self.buffer_size)
+            resp = sock.recv(self.buffer_size)
             return self.check_response(resp)
         else:
             raise self._TimeoutExcept
@@ -80,7 +84,7 @@ class STM23Q_udp(object):
             self._sock.close()
 
     # ---- Exceptions ---- #
-    
+
     class _TimeoutExcept(Exception):
         """Access timeout during request"""
 
