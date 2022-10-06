@@ -54,7 +54,8 @@ class STM23Q_udp(object):
         """Receive single response packet from motor. Returns bytestring"""
         sock = self._sock
         if select.select([sock], [], [], self.default_timeout)[0]:
-            resp = sock.recv(self.buffer_size)
+            # resp = sock.recv(self.buffer_size)
+            resp, address = sock.recvfrom(self.buffer_size)
             return self.check_response(resp)
         else:
             raise self._TimeoutExcept

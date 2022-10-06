@@ -11,6 +11,8 @@ motor.send(b'RS') # Request status
 motor.recv() # Get response from motor. Expected b'RS=R'
 ```
 
+A `STM23Q.STM23Q_udp._TimeoutExcept` is raised if there is no reply from the motor available
+
 See [Notes on Ethernet Config](docs/Notes-On-Ethernet-Config.md) for configuration of `socket_ip`
 
 `socket_port` is apparently not very important as long as it is unused. A new socket port is required for each motor connected. According to pg 22 of the [Hardware Manual](docs/STM23-Hardware_Manual_920-0021F.pdf) the STM23 drive responds to whatever ip/port sends the first command

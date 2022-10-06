@@ -35,7 +35,7 @@ For temporary ip configuration, use
 sudo ip addr add <IP>/24 dev <ethernet interface>
 ```
 
-In this example case `<IP> =  192.168.1.30` (where the motor IP should not be set to `192.168.1.30`. Determine `<ethernet interface>` using the `ip address show` command
+In this example case `<IP> =  192.168.1.30` (and motor IP should not be set to `192.168.1.30`). Determine `<ethernet interface>` using the `ip address show` command
 
 ## Using a Netgear GS308 Switcher for multiple motors
 
@@ -49,6 +49,10 @@ motor1 = STM23Q.STM23Q_udp(socket_port=7774, motor_ip="192.168.1.10") # Rotary s
 motor2 = STM23Q.STM23Q_udp(socket_port=7773, motor_ip="192.168.1.20") # Rotary switch set to 2
 motor1.send(b"DI100000") # Set motor 1 dist to 100000
 motor2.send(b"DI50000") # Set motor 2 dist to 50000
+motor1.send(b"DI") # Query DI value from motor1
+motor2.send(b"DI") # Query DI value from motor2
+motor1.recv() # b'DI=100000'
+motor2.recv() # b'DI=50000'
 motor1.send(b"FL") # Tell motor 1 to move the set dist
 motor2.send(b"FL") # Tell motor 2 to move the set dist
 ```
