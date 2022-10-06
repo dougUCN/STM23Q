@@ -6,18 +6,22 @@ Requires admin user on Ubuntu
 
 Open "Wired Settings" on the desired ethernet port in the Ubuntu Gui
 
+```
 IPV4 --> set IPV4 Method to Manual
 
 Address = 192.168.1.30, Net Mask = 255.255.255.0
+```
+
+A reminder that the motor IP address of `192.168.1.30` should be avoided in this example.
 
 Note that if the net mask is 255.255.255.0 then the pc can only talk to
 a motor whose IP address matches the first three octects.
 
-Save and apply. Changes should show up when using `ip address show`
+Save, apply, and reboot. Manual settings should appear when using `ip address show`
 
-Config file is stored in `/etc/NetworkManager/system-connections/Wired Connection 1`
+Config file is stored in `/etc/NetworkManager/system-connections/Wired Connection 1`. (Requires sudo to r/w)
 
-There is a cli tool called `nmcli` that allows you to manage this as well.
+There is a cli tool called `nmcli` that does the same things as the Gui.
 
 [Useful reference link](https://devconnected.com/how-to-add-route-on-linux/)
 
@@ -31,7 +35,7 @@ For temporary ip configuration, use
 sudo ip addr add <IP>/24 dev <ethernet interface>
 ```
 
-In our case we use `<IP> =  192.168.1.30`. Determine `<ethernet interface>` using the `ip address show` command
+In this example case `<IP> =  192.168.1.30` (where the motor IP should not be set to `192.168.1.30`. Determine `<ethernet interface>` using the `ip address show` command
 
 ## Using a Netgear GS308 Switcher for multiple motors
 
