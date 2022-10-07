@@ -1,6 +1,6 @@
 # STM23
 
-Basic python library for communications with the STM23 Motor + Drive
+Basic python library for communications with the STM23 Motor + Drive over an ethernet connection
 
 ## Example usage
 
